@@ -67,6 +67,8 @@ figsize_y = 6.4
 fig.set_figheight(figsize_y)
 fig.set_figwidth(figsize_x)
 
+fig_fontsize = 16
+
 smi_dir = os.environ.get("SMI_DIR")
 smi_input = os.environ.get("SMI_INPUT")
 #smi_output = os.environ.get("SMI_OUTPUT")
@@ -77,8 +79,9 @@ smi_output = "/nevis/ged/data/rshang/smi_output/output_mtx_paper"
 
 sky_tag = os.environ.get("SKY_TAG")
 
-smooth_size = 0.06 # flux measurement
-#smooth_size = 0.08
+#smooth_size = 0.06 # flux measurement
+smooth_size = 0.08
+#smooth_size = 0.10
 #smooth_size = 0.15
 #smooth_size = 0.24
 
@@ -156,12 +159,15 @@ if 'SNR_G150_p4' in source_name:
 if 'Cas_A' in source_name:
     logE_min = logE_axis.get_bin(np.log10(0.3))+1
     logE_mid = logE_axis.get_bin(np.log10(1.0))+1
+if 'PSR_J1856_p0245' in source_name:
+    logE_min = logE_axis.get_bin(np.log10(0.3))+1
+    logE_mid = logE_axis.get_bin(np.log10(1.0))+1
 if 'PSR_J1907_p0602' in source_name:
     logE_min = logE_axis.get_bin(np.log10(1.0))+1
     logE_mid = logE_axis.get_bin(np.log10(3.0))+1
 if 'PSR_J2021_p3651' in source_name:
-    logE_min = logE_axis.get_bin(np.log10(0.5))+1
-    logE_mid = logE_axis.get_bin(np.log10(1.0))+1
+    logE_min = logE_axis.get_bin(np.log10(1.0))+1
+    logE_mid = logE_axis.get_bin(np.log10(3.0))+1
 if 'Geminga' in source_name:
     logE_min = logE_axis.get_bin(np.log10(0.2))+1
     logE_mid = logE_axis.get_bin(np.log10(3.0))+1
@@ -734,10 +740,11 @@ for logE in range(plot_logE_min,plot_logE_max):
     fig.set_figheight(figsize_y)
     fig.set_figwidth(figsize_x)
     axbig = fig.add_subplot()
-    label_x = 'angular distance [deg]'
-    label_y = 'surface brightness [$\\mathrm{TeV}\\ \\mathrm{cm}^{-2}\\mathrm{s}^{-1}\\mathrm{sr}^{-1}$]'
-    axbig.set_xlabel(label_x)
-    axbig.set_ylabel(label_y)
+    axbig.tick_params(axis='both', which='major', labelsize=fig_fontsize*0.8)
+    label_x = 'Angular distance [deg]'
+    label_y = 'Surface brightness [$\\mathrm{TeV}\\ \\mathrm{cm}^{-2}\\mathrm{s}^{-1}\\mathrm{sr}^{-1}$]'
+    axbig.set_xlabel(label_x, fontsize=fig_fontsize)
+    axbig.set_ylabel(label_y, fontsize=fig_fontsize)
     axbig.fill_between(on_radial_axis,np.array(baseline_yaxis)-np.array(on_profile_syst_axis),np.array(baseline_yaxis)+np.array(on_profile_syst_axis),alpha=0.2,color='b')
     axbig.plot(on_radial_axis, baseline_yaxis, color='b', ls='dashed')
     axbig.errorbar(on_radial_axis,on_profile_axis,on_profile_err_axis,color='k',marker='+',ls='none')
@@ -753,10 +760,11 @@ figsize_y = 5
 fig.set_figheight(figsize_y)
 fig.set_figwidth(figsize_x)
 axbig = fig.add_subplot()
-label_x = 'angular distance [deg]'
-label_y = 'surface brightness [$\\mathrm{TeV}\\ \\mathrm{cm}^{-2}\\mathrm{s}^{-1}\\mathrm{sr}^{-1}$]'
-axbig.set_xlabel(label_x)
-axbig.set_ylabel(label_y)
+axbig.tick_params(axis='both', which='major', labelsize=fig_fontsize*0.8)
+label_x = 'Angular distance [deg]'
+label_y = 'Surface brightness [$\\mathrm{TeV}\\ \\mathrm{cm}^{-2}\\mathrm{s}^{-1}\\mathrm{sr}^{-1}$]'
+axbig.set_xlabel(label_x, fontsize=fig_fontsize)
+axbig.set_ylabel(label_y, fontsize=fig_fontsize)
 axbig.set_title(f'{pow(10.,logE_bins[plot_logE_min]):0.2f}-{pow(10.,logE_bins[plot_logE_max]):0.2f} TeV')
 axbig.fill_between(on_radial_axis,np.array(baseline_yaxis)-np.array(on_profile_syst_axis),np.array(baseline_yaxis)+np.array(on_profile_syst_axis),alpha=0.2,color='b')
 axbig.plot(on_radial_axis, baseline_yaxis, color='b', ls='dashed')
@@ -784,10 +792,11 @@ figsize_y = 5
 fig.set_figheight(figsize_y)
 fig.set_figwidth(figsize_x)
 axbig = fig.add_subplot()
-label_x = 'angular distance [deg]'
-label_y = 'surface brightness [$\\mathrm{TeV}\\ \\mathrm{cm}^{-2}\\mathrm{s}^{-1}\\mathrm{sr}^{-1}$]'
-axbig.set_xlabel(label_x)
-axbig.set_ylabel(label_y)
+axbig.tick_params(axis='both', which='major', labelsize=fig_fontsize*0.8)
+label_x = 'Angular distance [deg]'
+label_y = 'Surface brightness [$\\mathrm{TeV}\\ \\mathrm{cm}^{-2}\\mathrm{s}^{-1}\\mathrm{sr}^{-1}$]'
+axbig.set_xlabel(label_x, fontsize=fig_fontsize)
+axbig.set_ylabel(label_y, fontsize=fig_fontsize)
 axbig.set_title(f'{pow(10.,logE_bins[plot_logE_min]):0.2f}-{pow(10.,logE_bins[plot_logE_mid]):0.2f} TeV')
 axbig.fill_between(on_radial_axis,np.array(baseline_yaxis)-np.array(on_profile_syst_axis),np.array(baseline_yaxis)+np.array(on_profile_syst_axis),alpha=0.2,color='b')
 axbig.plot(on_radial_axis, baseline_yaxis, color='b', ls='dashed')
@@ -815,10 +824,11 @@ figsize_y = 5
 fig.set_figheight(figsize_y)
 fig.set_figwidth(figsize_x)
 axbig = fig.add_subplot()
-label_x = 'angular distance [deg]'
-label_y = 'surface brightness [$\\mathrm{TeV}\\ \\mathrm{cm}^{-2}\\mathrm{s}^{-1}\\mathrm{sr}^{-1}$]'
-axbig.set_xlabel(label_x)
-axbig.set_ylabel(label_y)
+axbig.tick_params(axis='both', which='major', labelsize=fig_fontsize*0.8)
+label_x = 'Angular distance [deg]'
+label_y = 'Surface brightness [$\\mathrm{TeV}\\ \\mathrm{cm}^{-2}\\mathrm{s}^{-1}\\mathrm{sr}^{-1}$]'
+axbig.set_xlabel(label_x, fontsize=fig_fontsize)
+axbig.set_ylabel(label_y, fontsize=fig_fontsize)
 axbig.set_title(f'{pow(10.,logE_bins[plot_logE_mid]):0.2f}-{pow(10.,logE_bins[plot_logE_max]):0.2f} TeV')
 axbig.fill_between(on_radial_axis,np.array(baseline_yaxis)-np.array(on_profile_syst_axis),np.array(baseline_yaxis)+np.array(on_profile_syst_axis),alpha=0.2,color='b')
 axbig.plot(on_radial_axis, baseline_yaxis, color='b', ls='dashed')
@@ -939,13 +949,14 @@ for logE in range(plot_logE_min,plot_logE_max):
     for gcut in range(0,gcut_bins):
         ax_idx = logE-plot_logE_min + (plot_logE_max-plot_logE_min)*gcut + 1
         axbig = fig.add_subplot(gs[ax_idx-1])
+        axbig.tick_params(axis='both', which='major', labelsize=fig_fontsize*0.8)
         if logE==plot_logE_min:
             if gcut==0:
-                axbig.set_ylabel('SR')
+                axbig.set_ylabel('SR', fontsize=fig_fontsize)
             else:
-                axbig.set_ylabel(f'CR{gcut}')
+                axbig.set_ylabel(f'CR{gcut}', fontsize=fig_fontsize)
         if gcut==0:
-            axbig.set_title(f'{pow(10.,logE_bins[logE]):0.2f}-{pow(10.,logE_bins[logE+1]):0.2f} TeV')
+            axbig.set_title(f'{pow(10.,logE_bins[logE]):0.2f}-{pow(10.,logE_bins[logE+1]):0.2f}\n TeV', fontsize=fig_fontsize)
         if not logE==plot_logE_min:
             axbig.axes.get_yaxis().set_visible(False)
         if not gcut==gcut_bins-1:
@@ -970,13 +981,14 @@ for logE in range(plot_logE_min,plot_logE_max):
     for gcut in range(0,gcut_bins):
         ax_idx = logE-plot_logE_min + (plot_logE_max-plot_logE_min)*gcut + 1
         axbig = fig.add_subplot(gs[ax_idx-1])
+        axbig.tick_params(axis='both', which='major', labelsize=fig_fontsize*0.8)
         if logE==plot_logE_min:
             if gcut==0:
-                axbig.set_ylabel('SR')
+                axbig.set_ylabel('SR', fontsize=fig_fontsize)
             else:
-                axbig.set_ylabel(f'CR{gcut}')
+                axbig.set_ylabel(f'CR{gcut}', fontsize=fig_fontsize)
         if gcut==0:
-            axbig.set_title(f'{pow(10.,logE_bins[logE]):0.2f}-{pow(10.,logE_bins[logE+1]):0.2f} TeV')
+            axbig.set_title(f'{pow(10.,logE_bins[logE]):0.2f}-{pow(10.,logE_bins[logE+1]):0.2f}\n TeV', fontsize=fig_fontsize)
         if not logE==plot_logE_min:
             axbig.axes.get_yaxis().set_visible(False)
         if not gcut==gcut_bins-1:

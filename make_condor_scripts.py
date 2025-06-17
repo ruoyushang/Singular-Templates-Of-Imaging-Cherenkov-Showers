@@ -20,8 +20,8 @@ print (f'job_dir = {job_dir}')
 subprocess.run(['mkdir',f'{job_dir}'], capture_output=True, text=True)
 
 
-training_mode = 'off'
-#training_mode = 'on'
+#training_mode = 'off'
+training_mode = 'on'
 #training_mode = 'gal'
 print (f"training_mode = {training_mode}")
 
@@ -53,6 +53,15 @@ if training_mode=='off':
     input_params += [ ['UrsaMajorII'           ,132.875 ,63.13  , 'OFF'] ]
     input_params += [ ['1ES1959_p650'          ,300.00 ,65.15   , 'OFF'] ]
     
+    input_params += [ ['CrabNebula_elev_80_90' ,83.633  ,22.014 , 'OFF'] ]
+    input_params += [ ['CrabNebula_elev_70_80' ,83.633  ,22.014 , 'OFF'] ]
+    input_params += [ ['CrabNebula_elev_60_70' ,83.633  ,22.014 , 'OFF'] ]
+    input_params += [ ['CrabNebula_elev_50_60' ,83.633  ,22.014 , 'OFF'] ]
+    input_params += [ ['CrabNebula_elev_40_50' ,83.633  ,22.014 , 'OFF'] ]
+    input_params += [ ['CrabNebula_elev_30_40' ,83.633  ,22.014 , 'OFF'] ]
+    input_params += [ ['CrabNebula_1p0wobble' ,83.633  ,22.014 , 'OFF'] ]
+    input_params += [ ['CrabNebula_1p5wobble' ,83.633  ,22.014 , 'OFF'] ]
+
 if training_mode=='on':
 
     input_params += [ ['CrabNebula_elev_80_90' ,83.633  ,22.014 , 'ON'] ]

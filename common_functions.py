@@ -988,6 +988,7 @@ def build_big_camera_matrix(source_name,src_ra,src_dec,smi_input,runlist,max_run
         EvtTree = InputFile.Get(TreeName)
         total_entries = EvtTree.GetEntries()
         #print (f'total_entries = {total_entries}')
+        if total_entries==0: continue
 
         if not is_bkgd:
             avg_MeanPedvar = 0.
@@ -1553,8 +1554,8 @@ def GetGammaSourceInfo():
 
     near_source_cut = 0.1
 
-    drawBrightStar = True
-    drawPulsar = True
+    drawBrightStar = False
+    drawPulsar = False
     drawSNR = False
     drawLHAASO = False
     drawFermi = False
@@ -1864,9 +1865,9 @@ def PlotCountProjection(fig,label_z,logE_min,logE_max,hist_map_data,hist_map_bkg
     axHistx.tick_params(labelsize=fig_fontsize)
     axHisty.tick_params(labelsize=fig_fontsize)
 
-    font = {'family': 'serif', 'color':  'white', 'weight': 'normal', 'size': 10, 'rotation': 0.,}
+    font = {'family': 'serif', 'color':  'white', 'weight': 'normal', 'size': fig_fontsize, 'rotation': 0.,}
     lable_energy_range = f'E = {E_min:0.2f}-{E_max:0.2f} TeV'
-    txt = axTemperature.text(xmax-0.14, ymax-0.21, lable_energy_range, fontdict=font)
+    txt = axTemperature.text(xmax-0.14, ymax-0.27, lable_energy_range, fontdict=font)
 
     fig.savefig(f'output_plots/count_{plotname}.png',bbox_inches='tight')
 
@@ -1901,7 +1902,7 @@ def PlotCountProjection(fig,label_z,logE_min,logE_max,hist_map_data,hist_map_bkg
     cax_app.tick_params(labelsize=fig_fontsize)
 
     favorite_color = 'k'
-    font = {'family': 'serif', 'color':  favorite_color, 'weight': 'normal', 'size': 10, 'rotation': 0.,}
+    font = {'family': 'serif', 'color':  favorite_color, 'weight': 'normal', 'size': fig_fontsize, 'rotation': 0.,}
 
     for star in range(0,len(other_star_markers)):
         marker_size = 60
@@ -1949,9 +1950,9 @@ def PlotCountProjection(fig,label_z,logE_min,logE_max,hist_map_data,hist_map_bkg
     axHistx.tick_params(labelsize=fig_fontsize)
     axHisty.tick_params(labelsize=fig_fontsize)
 
-    font = {'family': 'serif', 'color':  'black', 'weight': 'normal', 'size': 10, 'rotation': 0.,}
+    font = {'family': 'serif', 'color':  'black', 'weight': 'normal', 'size': fig_fontsize, 'rotation': 0.,}
     lable_energy_range = f'E = {E_min:0.2f}-{E_max:0.2f} TeV'
-    txt = axTemperature.text(xmax-0.14, ymax-0.21, lable_energy_range, fontdict=font)
+    txt = axTemperature.text(xmax-0.14, ymax-0.27, lable_energy_range, fontdict=font)
 
     fig.savefig(f'output_plots/significance_{plotname}.png',bbox_inches='tight')
 
@@ -1983,7 +1984,7 @@ def PlotCountProjection(fig,label_z,logE_min,logE_max,hist_map_data,hist_map_bkg
     favorite_color = 'k'
     if colormap=='magma':
         favorite_color = 'deepskyblue'
-    font = {'family': 'serif', 'color':  favorite_color, 'weight': 'normal', 'size': 10, 'rotation': 0.,}
+    font = {'family': 'serif', 'color':  favorite_color, 'weight': 'normal', 'size': fig_fontsize, 'rotation': 0.,}
 
     for star in range(0,len(other_star_markers)):
         marker_size = 60
@@ -2030,9 +2031,9 @@ def PlotCountProjection(fig,label_z,logE_min,logE_max,hist_map_data,hist_map_bkg
     axHistx.tick_params(labelsize=fig_fontsize)
     axHisty.tick_params(labelsize=fig_fontsize)
 
-    font = {'family': 'serif', 'color':  'white', 'weight': 'normal', 'size': 10, 'rotation': 0.,}
+    font = {'family': 'serif', 'color':  'white', 'weight': 'normal', 'size': fig_fontsize, 'rotation': 0.,}
     lable_energy_range = f'E = {E_min:0.2f}-{E_max:0.2f} TeV'
-    txt = axTemperature.text(xmax-0.14, ymax-0.21, lable_energy_range, fontdict=font)
+    txt = axTemperature.text(xmax-0.14, ymax-0.27, lable_energy_range, fontdict=font)
 
     fig.savefig(f'output_plots/excess_{plotname}.png',bbox_inches='tight')
 
@@ -2167,7 +2168,7 @@ def PlotSkyMap(fig,label_z,logE_min,logE_max,hist_map_input,plotname,roi_x=[],ro
 
     if not 'Gas' in plotname:
         lable_energy_range = f'E = {E_min:0.2f}-{E_max:0.2f} TeV'
-        txt = axbig.text(xmax-0.14, ymax-0.25, lable_energy_range, fontdict=font)
+        txt = axbig.text(xmax-0.14, ymax-0.27, lable_energy_range, fontdict=font)
 
     axbig.tick_params(axis='both', which='major', labelsize=fig_fontsize)
 
@@ -4175,6 +4176,7 @@ def build_skymap(
         EvtTree = InputFile.Get(TreeName)
         total_entries = EvtTree.GetEntries()
         #print (f'total_entries = {total_entries}')
+        if total_entries==0: continue
 
         avg_MeanPedvar = 0.
         for entry in range(0,total_entries):

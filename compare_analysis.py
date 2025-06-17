@@ -42,16 +42,11 @@ smi_dir = os.environ.get("SMI_DIR")
 smi_input = os.environ.get("SMI_INPUT")
 #smi_output = os.environ.get("SMI_OUTPUT")
 #smi_output = "/nevis/ged/data/rshang/smi_output/output_default"
-smi_output = "/nevis/ged/data/rshang/smi_output/output_20250417"
-
-ana_tag = []
-
-ana_tag += [['cr8_nbin7_init_free','$r = 0.5^{\\circ}$',0.5,1.0]]
-ana_tag += [['cr8_nbin7_init_free','$r = 1.0^{\\circ}$',1.0,1.5]]
-ana_tag += [['cr8_nbin7_init_free','$r = 1.5^{\\circ}$',1.5,1.75]]
-ana_tag += [['cr8_nbin7_fullspec32_free','$k_{c}$=32',-99,-99]]
+#smi_output = "/nevis/ged/data/rshang/smi_output/output_20250417"
+smi_output = "/nevis/ged/data/rshang/smi_output/output_mtx_paper"
 
 
+fig_fontsize = 16
 
 onoff = 'OFF'
 
@@ -75,14 +70,11 @@ max_elev = 90.
 input_epoch = ['V4','V5','V6']
 #input_epoch = ['V5','V6']
 
-#demo_energy = logE_bins
-#logE_low = 0
-#logE_mid = logE_axis.get_bin(np.log10(0.3))+1
-#logE_hig = logE_axis.get_bin(np.log10(1.7))+1
-#demo_energy = [logE_bins[logE_low], logE_bins[logE_mid], logE_bins[logE_hig], logE_bins[len(logE_bins)-1]] # log10(E/TeV)
 logE_low = logE_axis.get_bin(np.log10(0.2))+1
 logE_hig = logE_axis.get_bin(np.log10(1.0))+1
 demo_energy = [logE_bins[logE_low], logE_bins[logE_hig], logE_bins[len(logE_bins)-1]] # log10(E/TeV)
+#logE_low = logE_axis.get_bin(np.log10(0.2))+1
+#demo_energy = [logE_bins[logE_low], logE_bins[len(logE_bins)-1]] # log10(E/TeV)
 demoE_nbins = len(demo_energy) - 1 
 demoE_axis = MyArray1D(x_bins=demo_energy)
 
@@ -270,7 +262,8 @@ def plot_normalization_error(ana_tag):
 
     radial_range = 1.8
     for demoE in range(0,demoE_nbins):
-        fig, ax = plt.subplots(1, 1, figsize=(6.4, 4.8))
+        #fig, ax = plt.subplots(1, 1, figsize=(6.4, 4.8))
+        fig, ax = plt.subplots(1, 1, figsize=(4.8, 3.6))
         analysis_array = []
         stat_array = []
         error_array = []
@@ -363,7 +356,7 @@ def plot_radial_profile(ana_tag):
 
             avg_radius_array = []
             avg_significance_array = []
-            fig, ax = plt.subplots(2, 1, figsize=(6.4, 1.5 * 4.8), gridspec_kw={'height_ratios': [2, 1]})
+            fig, ax = plt.subplots(2, 1, figsize=(4.8, 1.5 * 3.6), gridspec_kw={'height_ratios': [2, 1]})
             for grp  in range(0,len(ana_data)):
                 grp_src_name = 0.
                 grp_expo = 0.
@@ -426,10 +419,10 @@ def plot_radial_profile(ana_tag):
             ax[1].plot(avg_radius_array, avg_significance_array)
 
             ax[0].set_title(f'E > {pow(10.,demo_energy[demoE]):0.2f} TeV')
-            ax[0].set_ylabel('error significance [$\\sigma$]')
+            ax[0].set_ylabel('Error significance [$\\sigma$]')
             ax[0].set_ylim(-10., 10.)
-            ax[1].set_ylabel('avg. significance (absolute)')
-            ax[1].set_xlabel('angular distance to camera center [deg]')
+            ax[1].set_ylabel('Avg. significance\n (absolute)')
+            ax[1].set_xlabel('Angular distance to camera center [deg]')
             ax[1].set_ylim(0., 4.)
             if roi_r_inner>0. and roi_r_outer>0.:
                 ax[0].axvspan(roi_r_inner, roi_r_outer, color='gray', alpha=0.5)
@@ -445,6 +438,19 @@ def plot_radial_profile(ana_tag):
             plt.close()
 
 
+#ana_tag = []
+#ana_tag += [['cr8_nbin7_fullspec1_free','$k_{c}$=1',-99,-99]]
+#ana_tag += [['cr8_nbin7_fullspec2_free','$k_{c}$=2',-99,-99]]
+#ana_tag += [['cr8_nbin7_fullspec4_free','$k_{c}$=4',-99,-99]]
+#ana_tag += [['cr8_nbin7_fullspec8_free','$k_{c}$=8',-99,-99]]
+#ana_tag += [['cr8_nbin7_fullspec16_free','$k_{c}$=16',-99,-99]]
+#ana_tag += [['cr8_nbin7_fullspec32_free','$k_{c}$=32',-99,-99]]
 #plot_normalization_error(ana_tag)
+
+ana_tag = []
+ana_tag += [['cr8_nbin7_init_free','$r = 0.5^{\\circ}$',0.5,1.0]]
+ana_tag += [['cr8_nbin7_init_free','$r = 1.0^{\\circ}$',1.0,1.5]]
+ana_tag += [['cr8_nbin7_init_free','$r = 1.5^{\\circ}$',1.5,1.75]]
+ana_tag += [['cr8_nbin7_fullspec32_free','$k_{c}$=32',-99,-99]]
 plot_radial_profile(ana_tag)
 

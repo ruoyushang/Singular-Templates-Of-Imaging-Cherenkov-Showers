@@ -53,6 +53,8 @@ figsize_y = 4.6
 fig.set_figheight(figsize_y)
 fig.set_figwidth(figsize_x)
 
+fig_fontsize = 16
+
 smi_input = os.environ.get("SMI_INPUT")
 smi_output = os.environ.get("SMI_OUTPUT")
 smi_dir = os.environ.get("SMI_DIR")
@@ -198,13 +200,14 @@ for logE in range(0,logE_nbins):
     for gcut in range(0,gcut_bins):
         ax_idx = logE + (gcut-0)*logE_nbins + 1
         axbig = fig.add_subplot(gs[ax_idx-1])
+        axbig.tick_params(axis='both', which='major', labelsize=fig_fontsize*0.8)
         if logE==0:
             if gcut==0:
-                axbig.set_ylabel('SR')
+                axbig.set_ylabel('SR', fontsize=fig_fontsize)
             else:
-                axbig.set_ylabel(f'CR{gcut}')
+                axbig.set_ylabel(f'CR{gcut}', fontsize=fig_fontsize)
         if gcut==0:
-            axbig.set_title(f'{pow(10.,logE_bins[logE]):0.2f}-{pow(10.,logE_bins[logE+1]):0.2f} TeV')
+            axbig.set_title(f'{pow(10.,logE_bins[logE]):0.2f}-{pow(10.,logE_bins[logE+1]):0.2f}\n TeV', fontsize=fig_fontsize)
         if not logE==0:
             axbig.axes.get_yaxis().set_visible(False)
         if not gcut==gcut_bins-1:
@@ -275,14 +278,15 @@ fig.set_figwidth(figsize_x)
 axbig = fig.add_subplot()
 label_x = '$k$'
 label_y = '$\\sigma_{k}$'
-axbig.set_xlabel(label_x)
-axbig.set_ylabel(label_y)
+axbig.set_xlabel(label_x, fontsize=fig_fontsize)
+axbig.set_ylabel(label_y, fontsize=fig_fontsize)
 axbig.set_xlim(1,plot_max_rank)
 axbig.set_ylim(S_full[plot_max_rank-1],2.*S_full[0])
 axbig.set_xscale('log')
 axbig.set_yscale('log')
+axbig.tick_params(axis='both', which='major', labelsize=fig_fontsize)
 axbig.plot(rank_index,S_full)
-fig.savefig(f'{smi_dir}/output_plots/xyoff_signularvalue_{source_name}_{input_epoch}.png',bbox_inches='tight')
+fig.savefig(f'{smi_dir}/output_plots/xyoff_singularvalue_{source_name}_{input_epoch}.png',bbox_inches='tight')
 axbig.remove()
     
 
@@ -302,13 +306,14 @@ for rank in range(0,max_matrix_rank):
         for gcut in range(0,gcut_bins):
             ax_idx = logE + (gcut-0)*logE_nbins + 1
             axbig = fig.add_subplot(gs[ax_idx-1])
+            axbig.tick_params(axis='both', which='major', labelsize=fig_fontsize*0.8)
             if logE==0:
                 if gcut==0:
-                    axbig.set_ylabel('SR')
+                    axbig.set_ylabel('SR', fontsize=fig_fontsize)
                 else:
-                    axbig.set_ylabel(f'CR{gcut}')
+                    axbig.set_ylabel(f'CR{gcut}', fontsize=fig_fontsize)
             if gcut==0:
-                axbig.set_title(f'{pow(10.,logE_bins[logE]):0.2f}-{pow(10.,logE_bins[logE+1]):0.2f} TeV')
+                axbig.set_title(f'{pow(10.,logE_bins[logE]):0.2f}-{pow(10.,logE_bins[logE+1]):0.2f}\n TeV', fontsize=fig_fontsize)
             if not logE==0:
                 axbig.axes.get_yaxis().set_visible(False)
             if not gcut==gcut_bins-1:
