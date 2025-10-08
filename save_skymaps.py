@@ -59,6 +59,14 @@ bin_tag = os.environ.get("BIN_TAG")
 cr_tag = os.environ.get("CR_TAG")
 ana_dir = os.environ.get("ANA_DIR")
 
+batch_tag = os.environ.get("BATCH_TAG")
+batch_hours = 0.
+if 'hr' in batch_tag:
+    batch_hours = float(batch_tag.strip('hr'))
+if batch_hours==0.:
+    batch_hours = 0.1
+print (f"batch_hours = {batch_hours}")
+
 source_name = sys.argv[1]
 src_ra = float(sys.argv[2])
 src_dec = float(sys.argv[3])
@@ -160,8 +168,10 @@ for run in range(0,total_runs):
 
 #min_exposure = 0.1 # hours
 #min_exposure = 2.0 # hours
-min_exposure = 5.0 # hours
+#min_exposure = 5.0 # hours
 #min_exposure = 10.0 # hours
+min_exposure = batch_hours # hours
+
 run_exposure = 0.
 for run in range(0,total_runs):
 

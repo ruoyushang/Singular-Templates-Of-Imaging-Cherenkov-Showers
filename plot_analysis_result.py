@@ -79,8 +79,8 @@ smi_output = "/nevis/ged/data/rshang/smi_output/output_mtx_paper"
 
 sky_tag = os.environ.get("SKY_TAG")
 
-#smooth_size = 0.06 # flux measurement
-smooth_size = 0.08
+smooth_size = 0.06 # flux measurement
+#smooth_size = 0.08
 #smooth_size = 0.10
 #smooth_size = 0.15
 #smooth_size = 0.24
@@ -163,6 +163,8 @@ if 'PSR_J1856_p0245' in source_name:
     logE_min = logE_axis.get_bin(np.log10(0.3))+1
     logE_mid = logE_axis.get_bin(np.log10(1.0))+1
 if 'PSR_J1907_p0602' in source_name:
+    #logE_min = logE_axis.get_bin(np.log10(0.3))+1
+    #logE_mid = logE_axis.get_bin(np.log10(3.0))+1
     logE_min = logE_axis.get_bin(np.log10(1.0))+1
     logE_mid = logE_axis.get_bin(np.log10(3.0))+1
 if 'PSR_J2021_p3651' in source_name:
@@ -215,9 +217,10 @@ print (f"all_roi_r = {all_roi_r}")
 
 max_exposure = 1000.
 #max_exposure = 10.
-#plot_tag += f'_{max_exposure}hr'
 #max_exposure = 50.
-#plot_tag += f'_{max_exposure}hr'
+#max_exposure = 100.
+
+plot_tag += f'_{max_exposure}hr'
 
 total_exposure = 0.
 good_exposure = 0.
@@ -458,6 +461,7 @@ for epoch in input_epoch:
             run_elev = run_info[1]
             run_azim = run_info[2]
             run_nsb = run_info[3]
+            print (f"run_nsb = {run_nsb}")
 
             if run_azim>270.:
                 run_azim = run_azim-360.
@@ -1053,15 +1057,24 @@ for mimic in range(0,n_mimic):
 #    PlotSkyMap(fig,'Intensity',plot_logE_min,plot_logE_max,HI_sky_map,f'HI_sky_map_{source_name}_m19_m03_{plot_tag}',roi_x=all_roi_x,roi_y=all_roi_y,roi_r=all_roi_r,colormap='magma',zoomin=zoomin)
 
 if 'PSR_J1856_p0245' in source_name:
+
+    j1856_roi_x=[284.30, 284.37]
+    j1856_roi_y=[2.72,   2.72]
+    j1856_roi_r=[0.38,   0.24]
+    
+    HI_intensity_to_H_column_density = 1.8*1e18 / 1000.
     HI_sky_map = MyArray3D(x_bins=skymap_bins,start_x=xsky_start,end_x=xsky_end,y_bins=skymap_bins,start_y=ysky_start,end_y=ysky_end,z_bins=1,start_z=gcut_start,end_z=gcut_end)
     MWL_map_file = '/nevis/ged/data/rshang/MW_FITS/GALFA_HI_RA+DEC_284.00+02.35_N.fits' 
     GetSlicedDataCubeMapGALFA(MWL_map_file, HI_sky_map, 81.*1e3, 102.*1e3)
-    PlotSkyMap(fig,'Column density [$1/\mathrm{cm}^{2}$]',plot_logE_min,plot_logE_max,HI_sky_map,f'Gas_HI_sky_map_{source_name}_p81_p102_{plot_tag}',colormap='magma',zoomin=zoomin)
+    HI_sky_map.scale(HI_intensity_to_H_column_density)
+    PlotSkyMap(fig,'Column density [$1/\mathrm{cm}^{2}$]',plot_logE_min,plot_logE_max,HI_sky_map,f'Gas_HI_sky_map_{source_name}_p81_p102_{plot_tag}',roi_x=j1856_roi_x,roi_y=j1856_roi_y,roi_r=j1856_roi_r,colormap='magma',zoomin=zoomin)
 
+    CO_intensity_to_H_column_density = 2.*1e20
     CO_sky_map = MyArray3D(x_bins=skymap_bins,start_x=xsky_start,end_x=xsky_end,y_bins=skymap_bins,start_y=ysky_start,end_y=ysky_end,z_bins=1,start_z=gcut_start,end_z=gcut_end)
     MWL_map_file = '/nevis/ged/data/rshang/MWL_maps/DHT08_Quad1_interp.fits' 
     GetSlicedDataCubeMap(MWL_map_file, CO_sky_map, 81., 102.)
-    PlotSkyMap(fig,'Column density [$1/\mathrm{cm}^{2}$]',plot_logE_min,plot_logE_max,CO_sky_map,f'Gas_CO_sky_map_{source_name}_p81_p102_{plot_tag}',colormap='magma',zoomin=zoomin)
+    CO_sky_map.scale(CO_intensity_to_H_column_density)
+    PlotSkyMap(fig,'Column density [$1/\mathrm{cm}^{2}$]',plot_logE_min,plot_logE_max,CO_sky_map,f'Gas_CO_sky_map_{source_name}_p81_p102_{plot_tag}',roi_x=j1856_roi_x,roi_y=j1856_roi_y,roi_r=j1856_roi_r,colormap='magma',zoomin=zoomin)
 
 
 
@@ -1090,7 +1103,8 @@ label_x = 'elevation [deg]'
 label_y = 'number of runs'
 axbig.set_xlabel(label_x)
 axbig.set_ylabel(label_y)
-axbig.hist(list_run_elev, bins=20)
+axbig.hist(list_run_elev, bins=20, label=f"mean = {np.mean(list_run_elev):0.1f}, std dev = {np.std(list_run_elev):0.1f}")
+axbig.legend(loc='best')
 fig.savefig(f'output_plots/elev_{source_name}_{plot_tag}.png',bbox_inches='tight')
 axbig.remove()
 
@@ -1104,7 +1118,8 @@ label_x = 'NSB'
 label_y = 'number of runs'
 axbig.set_xlabel(label_x)
 axbig.set_ylabel(label_y)
-axbig.hist(list_run_nsb, bins=20)
+axbig.hist(list_run_nsb, bins=20, label=f"mean = {np.mean(list_run_nsb):0.1f}, std dev = {np.std(list_run_nsb):0.1f}")
+axbig.legend(loc='best')
 fig.savefig(f'output_plots/nsb_{source_name}_{plot_tag}.png',bbox_inches='tight')
 axbig.remove()
 

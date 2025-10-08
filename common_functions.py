@@ -55,15 +55,22 @@ xoff_end = 2.
 yoff_start = -2.
 yoff_end = 2.
 
-#logE_bins = [-0.90,-0.80,-0.70,-0.60,-0.50,-0.40,-0.25,0.00,0.25,0.50,0.75,1.00,1.25] # logE TeV
-#logE_nbins = len(logE_bins)-1
 logE_bins = [-0.60,-0.50,-0.40,-0.25,0.00,0.25,0.50,0.75,1.00,1.25] # logE TeV
 logE_nbins = len(logE_bins)-1
 
 MSCW_cut = [0.60,0.60,0.60,0.60,0.60,0.60,0.60,0.60,0.60]
 MSCL_cut = [0.70,0.70,0.70,0.70,0.70,0.70,0.70,0.70,0.70]
+
+# HESS J1857
 # elev = 60-70 deg
-str_flux_calibration = ['1.83e+03', '3.60e+03', '5.37e+03', '1.05e+04', '2.50e+04', '7.26e+04', '2.89e+05', '6.39e+05', '1.75e+06']
+#str_flux_calibration = ['1.83e+03', '3.60e+03', '5.37e+03', '1.05e+04', '2.50e+04', '7.26e+04', '2.89e+05', '6.39e+05', '1.75e+06']
+
+# elev = 50-60 deg
+#str_flux_calibration = ['1.52e+03', '2.37e+03', '2.97e+03', '6.51e+03', '1.65e+04', '5.10e+04', '2.06e+05', '6.48e+05', '2.29e+06']
+
+# MGRO J1908
+# elev = 40-50 deg
+str_flux_calibration = ['0.00e+00', '0.00e+00', '1.72e+03', '3.06e+03', '8.33e+03', '2.94e+04', '1.26e+05', '4.62e+05', '9.01e+05']
 
 skymap_size = 2.
 fine_skymap_size = 3.
@@ -1555,7 +1562,7 @@ def GetGammaSourceInfo():
     near_source_cut = 0.1
 
     drawBrightStar = False
-    drawPulsar = False
+    drawPulsar = True
     drawSNR = False
     drawLHAASO = False
     drawFermi = False
@@ -1983,7 +1990,8 @@ def PlotCountProjection(fig,label_z,logE_min,logE_max,hist_map_data,hist_map_bkg
 
     favorite_color = 'k'
     if colormap=='magma':
-        favorite_color = 'deepskyblue'
+        #favorite_color = 'deepskyblue'
+        favorite_color = 'white'
     font = {'family': 'serif', 'color':  favorite_color, 'weight': 'normal', 'size': fig_fontsize, 'rotation': 0.,}
 
     for star in range(0,len(other_star_markers)):
@@ -2062,7 +2070,8 @@ def PlotSkyMap(fig,label_z,logE_min,logE_max,hist_map_input,plotname,roi_x=[],ro
     other_star_labels = []
     other_star_types = []
     other_star_markers = []
-    star_range = 0.8*(xmax-xmin)/2.
+    star_range = 0.3*(xmax-xmin)/2.
+    #star_range = 0.8*(xmax-xmin)/2.
     source_ra = (xmax+xmin)/2.
     source_dec = (ymax+ymin)/2.
     n_stars = 0
@@ -2133,7 +2142,8 @@ def PlotSkyMap(fig,label_z,logE_min,logE_max,hist_map_input,plotname,roi_x=[],ro
 
     favorite_color = 'k'
     if colormap=='magma':
-        favorite_color = 'deepskyblue'
+        #favorite_color = 'deepskyblue'
+        favorite_color = 'white'
     font = {'family': 'serif', 'color':  favorite_color, 'weight': 'normal', 'size': fig_fontsize, 'rotation': 0.,}
 
     for star in range(0,len(other_star_markers)):
@@ -2239,6 +2249,7 @@ def make_flux_map(incl_sky_map,data_sky_map,bkgd_sky_map,flux_sky_map,flux_err_s
 
 def GetRadialProfile(hist_flux_skymap,hist_error_skymap,hist_syst_skymap,roi_x,roi_y,roi_r,excl_roi_x,excl_roi_y,excl_roi_r,use_excl=True,radial_bin_scale=0.1):
 
+    #radial_bin_scale = 0.4
     deg2_to_sr =  3.046*1e-4
     pix_size = abs((hist_flux_skymap.yaxis[1]-hist_flux_skymap.yaxis[0])*(hist_flux_skymap.xaxis[1]-hist_flux_skymap.xaxis[0]))*deg2_to_sr
     bin_size = max(radial_bin_scale,1.*(hist_flux_skymap.yaxis[1]-hist_flux_skymap.yaxis[0]))
@@ -2989,6 +3000,18 @@ def DefineRegionOfInterest(src_name,src_ra,src_dec,coordinate_type='icrs'):
         region_y += [21.302]
         region_r += [0.2]
 
+    elif 'H1426' in src_name:
+        region_name = ('H1426','H1426')
+        region_x += [217.136]
+        region_y += [42.673]
+        region_r += [0.2]
+
+    elif '1ES0229' in src_name:
+        region_name = ('1ES0229','1ES0229')
+        region_x += [38.222]
+        region_y += [20.273]
+        region_r += [0.2]
+
     elif 'Cas_A' in src_name:
         # Cassiopeia A  , 350.808, 58.807
         region_name = ('CasA','CasA')
@@ -2998,15 +3021,15 @@ def DefineRegionOfInterest(src_name,src_ra,src_dec,coordinate_type='icrs'):
 
     elif 'PSR_J1907_p0602' in src_name:
 
-        region_name = ('1LHAASO','1LHAASO')
-        region_x += [287.05]
-        region_y += [6.26]
-        region_r += [0.36*2.]
-
-        #region_name = ('3HWC','3HWC')
+        #region_name = ('1LHAASO','1LHAASO')
         #region_x += [287.05]
-        #region_y += [6.39]
-        #region_r += [1.2]
+        #region_y += [6.26]
+        #region_r += [0.36*2.]
+
+        region_name = ('3HWC','3HWC')
+        region_x += [287.05]
+        region_y += [6.39]
+        region_r += [1.2]
 
         #region_name = ('SS433','SS 433')
         #region_x += [288.0833333]
@@ -4071,33 +4094,39 @@ def build_skymap(
         print (f'sum_data_xyoff_map = {sum_data_xyoff_map:0.1f}, sum_fit_xyoff_map = {sum_fit_xyoff_map:0.1f}')
 
 
+    syst_cr0 = 1
+    syst_cr1 = 1
+    syst_cr2 = 2
     syst_scaling = []
     for logE in range(0,logE_nbins):
         sum_xyoff_map_sr = 0.
         sum_xyoff_map_sr = np.sum(fit_xyoff_map[logE].waxis[:,:,0])
-        if np.sum(fit_xyoff_map[logE].waxis[:,:,1])>0.:
-            syst_scaling += [np.sum(fit_xyoff_map[logE].waxis[:,:,0]) / np.sum(fit_xyoff_map[logE].waxis[:,:,1])]
+        if np.sum(fit_xyoff_map[logE].waxis[:,:,syst_cr1])>0.:
+            syst_scaling += [np.sum(fit_xyoff_map[logE].waxis[:,:,0]) / np.sum(fit_xyoff_map[logE].waxis[:,:,syst_cr1])]
         else:
             syst_scaling += [0.]
         for idx_x in range(0,xoff_bins[logE]):
             for idx_y in range(0,yoff_bins[logE]):
 
-                sum_xyoff_map_cr1 = data_xyoff_map[logE].waxis[idx_x,idx_y,1]
-                sum_xyoff_map_cr2 = data_xyoff_map[logE].waxis[idx_x,idx_y,2]
+                sum_xyoff_map_cr0 = data_xyoff_map[logE].waxis[idx_x,idx_y,syst_cr0]
+                sum_xyoff_map_cr1 = fit_xyoff_map[logE].waxis[idx_x,idx_y,syst_cr1]
+                sum_xyoff_map_cr2 = data_xyoff_map[logE].waxis[idx_x,idx_y,syst_cr2]
                 model = fit_xyoff_map[logE].waxis[idx_x,idx_y,0]
-                model_err = syst_xyoff_map[logE].waxis[idx_x,idx_y,1]
+                model_cr = fit_xyoff_map[logE].waxis[idx_x,idx_y,syst_cr1]
 
                 if sum_xyoff_map_cr1<10.:
-                    sum_xyoff_map_cr1 = np.sum(data_xyoff_map[logE].waxis[:,:,1])
-                    sum_xyoff_map_cr2 = np.sum(data_xyoff_map[logE].waxis[:,:,2])
+                    sum_xyoff_map_cr0 = np.sum(data_xyoff_map[logE].waxis[:,:,syst_cr0])
+                    sum_xyoff_map_cr1 = np.sum(fit_xyoff_map[logE].waxis[:,:,syst_cr1])
+                    sum_xyoff_map_cr2 = np.sum(data_xyoff_map[logE].waxis[:,:,syst_cr2])
                     model = np.sum(fit_xyoff_map[logE].waxis[:,:,0])
-                    model_err = np.sum(syst_xyoff_map[logE].waxis[:,:,1])
+                    model_cr = np.sum(fit_xyoff_map[logE].waxis[:,:,syst_cr1])
 
                 ratio = 0.
                 ratio_syst = 0.
-                if sum_xyoff_map_cr1>0.:
-                    ratio = model / sum_xyoff_map_cr1
-                    ratio_syst = model_err / sum_xyoff_map_cr2
+                if sum_xyoff_map_cr0>0.:
+                    ratio = model / sum_xyoff_map_cr0
+                if sum_xyoff_map_cr2>0.:
+                    ratio_syst = model_cr / sum_xyoff_map_cr2
                 ratio_xyoff_map[logE].waxis[idx_x,idx_y,0] = ratio
                 syst_xyoff_map[logE].waxis[idx_x,idx_y,0] = ratio_syst
 
@@ -4122,6 +4151,9 @@ def build_skymap(
     #                ratio_xyoff_map[logE].waxis[idx_x,idx_y,0] = avg_ratio
 
 
+    cr_max = []
+    for logE in range(0,logE_nbins):
+        cr_max += [np.max(data_xyoff_map[logE].waxis[:,:,1])]
 
 
     run_count = 0
@@ -4233,7 +4265,7 @@ def build_skymap(
             if Rcore>max_Rcore: continue
             if Rcore<min_Rcore: continue
 
-            avg_MeanPedvar += MeanPedvar
+            #avg_MeanPedvar += MeanPedvar
             total_events += 1.
 
             Xsky = RA
@@ -4250,7 +4282,7 @@ def build_skymap(
                 if found_gamma_source: continue
 
             if GammaCut>float(gcut_end): continue
-            if GammaCut>3.: continue
+            #if GammaCut>3.: continue
 
             if onoff=='OFF':
 
@@ -4263,11 +4295,15 @@ def build_skymap(
 
                 sr_syst = syst_xyoff_map[logE].get_bin_content(Xoff,Yoff,0.5)
                 sr_model = ratio_xyoff_map[logE].get_bin_content(Xoff,Yoff,0.5)
+                cr_local = data_xyoff_map[logE].get_bin_content(Xoff,Yoff,1.5)
+                cr_acceptance = cr_local / max(1.,cr_max[logE])
+                if cr_acceptance < 0.2: continue
                 if GammaCut>1.:
-                    if GammaCut<2.:
+                    if int(GammaCut)==syst_cr0:
                         fit_sky_map[logE].fill(Xsky_rel,Ysky_rel,0.5,weight=sr_model)
+                    if int(GammaCut)==syst_cr1:
                         syst_sky_map[logE].fill(Xsky_rel,Ysky_rel,0.5,weight=syst_scaling[logE])
-                    elif GammaCut<3.:
+                    elif int(GammaCut)==syst_cr2:
                         syst_sky_map[logE].fill(Xsky_rel,Ysky_rel,0.5,weight=-1.*sr_syst*syst_scaling[logE])
                 elif GammaCut<1.:
                     data_sky_map[logE].fill(Xsky_rel,Ysky_rel,GammaCut)
@@ -4281,11 +4317,15 @@ def build_skymap(
 
                     sr_syst = syst_xyoff_map[logE].get_bin_content(Xoff,Yoff,0.5)
                     sr_model = ratio_xyoff_map[logE].get_bin_content(Xoff,Yoff,0.5)
+                    cr_local = data_xyoff_map[logE].get_bin_content(Xoff,Yoff,1.5)
+                    cr_acceptance = cr_local / max(1.,cr_max[logE])
+                    if cr_acceptance < 0.2: continue
                     if GammaCut>1.:
-                        if GammaCut<2.:
+                        if int(GammaCut)==syst_cr0:
                             fit_sky_map[logE].fill(Gal_Xsky,Gal_Ysky,0.5,weight=sr_model)
+                        if int(GammaCut)==syst_cr1:
                             syst_sky_map[logE].fill(Gal_Xsky,Gal_Ysky,0.5,weight=syst_scaling[logE])
-                        elif GammaCut<3.:
+                        elif int(GammaCut)==syst_cr2:
                             syst_sky_map[logE].fill(Gal_Xsky,Gal_Ysky,0.5,weight=-1.*sr_syst*syst_scaling[logE])
                     elif GammaCut<1.:
                         data_sky_map[logE].fill(Gal_Xsky,Gal_Ysky,GammaCut)
@@ -4296,11 +4336,15 @@ def build_skymap(
 
                     sr_syst = syst_xyoff_map[logE].get_bin_content(Xoff,Yoff,0.5)
                     sr_model = ratio_xyoff_map[logE].get_bin_content(Xoff,Yoff,0.5)
+                    cr_local = data_xyoff_map[logE].get_bin_content(Xoff,Yoff,1.5)
+                    cr_acceptance = cr_local / max(1.,cr_max[logE])
+                    if cr_acceptance < 0.2: continue
                     if GammaCut>1.:
-                        if GammaCut<2.:
+                        if int(GammaCut)==syst_cr0:
                             fit_sky_map[logE].fill(Xsky,Ysky,0.5,weight=sr_model)
+                        if int(GammaCut)==syst_cr1:
                             syst_sky_map[logE].fill(Xsky,Ysky,0.5,weight=syst_scaling[logE])
-                        elif GammaCut<3.:
+                        elif int(GammaCut)==syst_cr2:
                             syst_sky_map[logE].fill(Xsky,Ysky,0.5,weight=-1.*sr_syst*syst_scaling[logE])
                     elif GammaCut<1.:
                         data_sky_map[logE].fill(Xsky,Ysky,GammaCut)
@@ -4313,7 +4357,7 @@ def build_skymap(
     if exposure_hours>0.:
         avg_tel_elev = avg_tel_elev/exposure_hours
         avg_tel_azim = avg_tel_azim/exposure_hours
-        avg_MeanPedvar = avg_MeanPedvar/total_events
+        #avg_MeanPedvar = avg_MeanPedvar/total_events
 
     print (f'avg_tel_elev = {avg_tel_elev}')
 

@@ -53,8 +53,8 @@ onoff = 'OFF'
 #exposure_per_group = 2.
 #exposure_per_group = 5.
 #exposure_per_group = 10.
-exposure_per_group = 20.
-#exposure_per_group = 30.
+#exposure_per_group = 20.
+exposure_per_group = 30.
 #exposure_per_group = 50.
 #exposure_per_group = 100.
 #exposure_per_group = 1000.
@@ -344,9 +344,9 @@ def plot_normalization_error(ana_tag):
         plt.close()
 
 
-def plot_radial_profile(ana_tag):
+def plot_radial_profile(ana_tag, roi_x=0., roi_y=0.):
 
-    radial_range = 1.8
+    radial_range = 1.8 + pow(roi_x*roi_x+roi_y*roi_y,0.5)
     for demoE in range(0,demoE_nbins):
         for ana in range(0,len(ana_tag)):
             expo_dict, ana_data = get_analysis_data(ana_tag[ana])
@@ -385,8 +385,8 @@ def plot_radial_profile(ana_tag):
                         bkgd_count = np.sum(bkgd_map[logE].waxis[:,:,0])
                         scale = 1.
                         if roi_r_inner>0. and roi_r_outer>0.:
-                            data_ring_norm = GetNormRBM(data_map[logE],0.,0.,roi_r_inner,roi_r_outer)
-                            bkgd_ring_norm = GetNormRBM(bkgd_map[logE],0.,0.,roi_r_inner,roi_r_outer)
+                            data_ring_norm = GetNormRBM(data_map[logE],roi_x,roi_y,roi_r_inner,roi_r_outer)
+                            bkgd_ring_norm = GetNormRBM(bkgd_map[logE],roi_x,roi_y,roi_r_inner,roi_r_outer)
                             if bkgd_ring_norm>0.:
                                 scale = data_ring_norm / bkgd_ring_norm
                         if demoE != demoE_axis.get_bin(logE_bins[logE]): continue
@@ -395,8 +395,8 @@ def plot_radial_profile(ana_tag):
                         grp_data_map[demoE].add(data_map[logE],factor=1.)
                         grp_bkgd_map[demoE].add(bkgd_map[logE],factor=scale)
 
-                data_radius_array, data_profile_array = GetRadialProfile(grp_data_map[demoE],0.,0.,radial_range,radial_bin_scale=0.1)
-                bkgd_radius_array, bkgd_profile_array = GetRadialProfile(grp_bkgd_map[demoE],0.,0.,radial_range,radial_bin_scale=0.1)
+                data_radius_array, data_profile_array = GetRadialProfile(grp_data_map[demoE],roi_x,roi_y,radial_range,radial_bin_scale=0.1)
+                bkgd_radius_array, bkgd_profile_array = GetRadialProfile(grp_bkgd_map[demoE],roi_x,roi_y,radial_range,radial_bin_scale=0.1)
 
                 if np.sum(data_profile_array)==0.: continue
                 if grp_expo<exposure_per_group: continue
@@ -428,7 +428,7 @@ def plot_radial_profile(ana_tag):
                 ax[0].axvspan(roi_r_inner, roi_r_outer, color='gray', alpha=0.5)
                 ax[1].axvspan(roi_r_inner, roi_r_outer, color='gray', alpha=0.5)
             fig.savefig(
-                f"output_plots/radial_profile_{ana_tag[ana][0]}_{ana}_demoE{demoE}.png", 
+                f"output_plots/radial_profile_{ana_tag[ana][0]}_{ana}_x{int(roi_x*10.)}_y{int(roi_y*10.)}_demoE{demoE}.png", 
                 dpi=300,
                 bbox_inches="tight",
             )
@@ -447,10 +447,18 @@ def plot_radial_profile(ana_tag):
 #ana_tag += [['cr8_nbin7_fullspec32_free','$k_{c}$=32',-99,-99]]
 #plot_normalization_error(ana_tag)
 
+#ana_tag = []
+#ana_tag += [['cr8_nbin7_init_free','$r = 0.5^{\\circ}$',0.5,1.0]]
+#ana_tag += [['cr8_nbin7_init_free','$r = 1.0^{\\circ}$',1.0,1.5]]
+#ana_tag += [['cr8_nbin7_init_free','$r = 1.5^{\\circ}$',1.5,1.75]]
+#ana_tag += [['cr8_nbin7_fullspec32_free','$k_{c}$=32',-99,-99]]
+#plot_radial_profile(ana_tag, roi_x=0., roi_y=0.)
+
 ana_tag = []
 ana_tag += [['cr8_nbin7_init_free','$r = 0.5^{\\circ}$',0.5,1.0]]
 ana_tag += [['cr8_nbin7_init_free','$r = 1.0^{\\circ}$',1.0,1.5]]
-ana_tag += [['cr8_nbin7_init_free','$r = 1.5^{\\circ}$',1.5,1.75]]
-ana_tag += [['cr8_nbin7_fullspec32_free','$k_{c}$=32',-99,-99]]
-plot_radial_profile(ana_tag)
+ana_tag += [['cr8_nbin7_init_free','$r = 1.5^{\\circ}$',1.5,2.0]]
+ana_tag += [['cr8_nbin7_init_free','$r = 2.0^{\\circ}$',2.0,2.5]]
+ana_tag += [['cr8_nbin7_fullspec32_free_5hr','$k_{c}$=32',-99,-99]]
+plot_radial_profile(ana_tag, roi_x=0.5, roi_y=0.)
 
