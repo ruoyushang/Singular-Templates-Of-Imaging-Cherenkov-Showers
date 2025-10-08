@@ -39,13 +39,13 @@ The goal is to reduce systematic background bias and improve sensitivity in sour
 Here’s a minimal end-to-end example (assuming you have prepared input data):
 
 # 1. Setup environment variables (example)
-In bash:
-export SMI_INPUT=/path/to/root/files
-export SMI_AUX=/path/to/auxiliary/files
-export SMI_DIR=/path/to/working/dir
-export SMI_RUNLIST=/path/to/job/output
-export SMI_OUTPUT=/path/to/analysis/outputs
-export SKY_TAG="fullspec16"
+In bash: \n
+export SMI_INPUT=/path/to/root/files \n
+export SMI_AUX=/path/to/auxiliary/files \n
+export SMI_DIR=/path/to/working/dir \n
+export SMI_RUNLIST=/path/to/job/output \n
+export SMI_OUTPUT=/path/to/analysis/outputs \n
+export SKY_TAG="fullspec16" \n
 
 # 2. Generate run scripts
 
