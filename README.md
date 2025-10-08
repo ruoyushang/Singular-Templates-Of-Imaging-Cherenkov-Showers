@@ -119,5 +119,17 @@ Execute "sh run/plot_Geminga_ON.sh"
 
 Your analysis plots, including sky maps (significance, flux, count), spectra, surface brightness profiles, will be created in the "output_plots" folder.
 
+## Future plans
+
+- Add GPU-accelerated SVD (using CuPy or PyTorch).
+- Accelerate gradient descent to find the optimal signular template solution. 
+- Implement uncertainty propagation.
+- Support for next-generation CTA data format.
+
+
+## Acknowledgments 
+
+Developed by **Ruo Yu Shang** at Barnard College / Columbia University. 
+Special thanks to the VERITAS collaboration for access to data and infrastructure.
 
 
