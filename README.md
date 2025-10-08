@@ -12,6 +12,15 @@
 
 ---
 
+This package can be used locally for IACT data analysis. 
+
+Requirements 
+------------ 
+
+- Python 3.8 or newer
+- Recommended packages: numpy, scipy, matplotlib, astropy, ROOT, csv
+  
+
 ## 1. Overview
 
 This package implements a **singular template method** for background estimation in **Imaging Atmospheric Cherenkov Telescopes (IACT)** gamma-ray data.  
