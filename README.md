@@ -19,6 +19,15 @@ Requirements
 
 - Python 3.8 or newer
 - Recommended packages: numpy, scipy, matplotlib, astropy, ROOT, csv
+
+This section summarizes the main scripts provided. 
+
+- make_vts_db_script.py: Generates shell scripts for run querying.
+- make_condor_scripts.py: Builds job scripts for Condor clusters.
+- save_big_matrices.py: Saves matrices of OFF run observations later for SVD construction of background templates.
+- build_eigenvectors.py: Performs singular value decomposition and saves singular vectors (templates).
+- save_skymaps.py: Analyzes ON run data and builds background models from the singular templates, then save the background-subtracted data sky maps.
+- plot_analysis_result.py: Generates diagnostic and summary plots.
   
 
 ## 1. Overview
