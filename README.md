@@ -121,7 +121,6 @@ Your analysis plots, including sky maps (significance, flux, count), spectra, su
 
 ## Future plans
 
-- Add GPU-accelerated SVD (using CuPy or PyTorch).
 - Accelerate gradient descent to find the optimal signular template solution. 
 - Implement uncertainty propagation.
 - Support for next-generation CTA data format.
